@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
   <title>Hindi Typing Master & Tutor (Zero Scroll Console)</title>
-  <meta name="description" content="100% Free Hindi Typing Tutor with static non-scrollable mobile console and side-by-side landscape mode.">
+  <meta name="description" content="100% Free Hindi Typing Tutor with intact Hindi ligatures, font resizer, and side-by-side landscape mode.">
 
   <!-- Privacy Analytics -->
   <script data-goatcounter="https://quicktools.goatcounter.com/count"
@@ -33,7 +33,6 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
     }
 
-    /* STATIC LOCKED VIEWPORT: NO PAGE SCROLLING IN ANY STATE */
     html, body {
       width: 100vw;
       height: 100vh;
@@ -50,7 +49,6 @@
       touch-action: pan-x pan-y;
     }
 
-    /* MAIN APP SHELL */
     .app-screen {
       flex: 1;
       width: 100%;
@@ -64,7 +62,7 @@
       min-height: 0;
     }
 
-    /* TOP HEADER & CONTROLS STRIP */
+    /* TOP HEADER & CONTROLS */
     .dashboard-strip {
       display: flex;
       align-items: center;
@@ -75,6 +73,7 @@
       border-radius: 8px;
       padding: 6px 12px;
       flex-shrink: 0;
+      flex-wrap: wrap;
     }
 
     .brand-section {
@@ -89,7 +88,6 @@
       color: #fff;
     }
 
-    /* COMPACT POPUP BUTTON FOR OTHER APPS */
     .btn-apps-trigger {
       background: var(--bg-surface);
       border: 1px solid var(--border);
@@ -104,7 +102,6 @@
       gap: 4px;
       height: 26px;
     }
-    .btn-apps-trigger:hover { border-color: #38bdf8; }
 
     .selectors-row {
       display: flex;
@@ -123,6 +120,29 @@
       outline: none;
       height: 26px;
     }
+
+    /* FONT RESIZE BUTTONS (A- / A+) */
+    .font-size-ctrls {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 4px;
+      height: 26px;
+    }
+    .btn-font {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+    .btn-font:hover { color: #fff; }
 
     .stats-row {
       display: flex;
@@ -144,7 +164,7 @@
     }
     .stat-val { font-size: 0.85rem; font-weight: 900; }
 
-    /* WORKSPACE: DUAL PARAGRAPH & INPUT REGION */
+    /* WORKSPACE */
     .workspace-area {
       flex: 1;
       display: flex;
@@ -163,16 +183,41 @@
       flex-direction: column;
     }
 
+    /* FULL INTACT PARAGRAPH WITH PROPER DEVANAGARI LIGATURES */
     .passage-card {
       flex: 1;
-      font-size: 1.25rem;
+      font-size: var(--typing-font-size, 1.25rem);
       line-height: 2.1;
-      padding: 12px 16px;
+      padding: 14px 18px;
       user-select: none;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: break-word;
     }
     .passage-card::-webkit-scrollbar { width: 5px; }
     .passage-card::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+    /* WORD HIGHLIGHTING (NATURAL PARAGRAPH FLOW) */
+    .word-token {
+      display: inline-block;
+      margin: 0 3px;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    .word-current {
+      background: var(--primary);
+      color: #0b1120;
+      font-weight: 800;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+    }
+    .word-correct {
+      color: var(--accent);
+    }
+    .word-wrong {
+      background: rgba(239, 68, 68, 0.35);
+      color: var(--danger);
+    }
 
     .input-card {
       flex-shrink: 0;
@@ -189,24 +234,14 @@
       background: transparent;
       border: none;
       color: #fff;
-      font-size: 1.2rem;
+      font-size: var(--typing-font-size, 1.2rem);
       padding: 0 14px;
       outline: none;
       user-select: text;
       -webkit-user-select: text;
     }
 
-    .char-current {
-      background: var(--primary);
-      color: #0b1120;
-      border-radius: 3px;
-      padding: 1px 4px;
-      font-weight: 800;
-    }
-    .char-correct { color: var(--accent); }
-    .char-wrong { background: rgba(239, 68, 68, 0.4); color: var(--danger); border-radius: 2px; }
-
-    /* ON-SCREEN VISUAL KEYBOARD (PC & MOBILE PORTRAIT) */
+    /* ON-SCREEN KEYBOARD (PC & PORTRAIT) */
     .keyboard-panel {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -239,9 +274,7 @@
     .key-eng { font-size: 0.6rem; color: var(--muted); font-weight: 700; line-height: 1; }
     .key-hin { font-size: 0.95rem; color: #fff; font-weight: 800; line-height: 1.1; margin-top: 1px; }
 
-    /* ========================================================
-       MOBILE LANDSCAPE RULES: STRICTLY STATIC, NO KEYBOARD
-       ======================================================== */
+    /* LANDSCAPE ZERO-SCROLL MODE (NO KEYBOARD) */
     @media screen and (orientation: landscape) and (max-height: 560px) {
       .keyboard-panel, #keyboardGuide { display: none !important; }
 
@@ -253,7 +286,6 @@
         padding: 3px 8px !important;
       }
 
-      /* SIDE-BY-SIDE RIGID CONTAINERS: NO PAGE OVERFLOW */
       .workspace-area {
         flex-direction: row !important;
         flex: 1 !important;
@@ -262,8 +294,8 @@
       .passage-card {
         flex: 1 !important;
         height: 100% !important;
-        font-size: 1.1rem !important;
-        line-height: 1.6 !important;
+        font-size: var(--typing-font-size, 1.05rem) !important;
+        line-height: 1.7 !important;
         padding: 8px 12px !important;
       }
       .input-card {
@@ -271,12 +303,12 @@
         height: 100% !important;
       }
       .typing-input {
-        font-size: 1.1rem !important;
+        font-size: var(--typing-font-size, 1.05rem) !important;
         padding: 8px 12px !important;
       }
     }
 
-    /* MODALS */
+    /* MODAL POPUPS */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -327,7 +359,6 @@
       cursor: pointer;
     }
 
-    /* APPS SHORTCUT MODAL */
     .apps-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -362,7 +393,7 @@
 <body>
 
   <div class="app-screen">
-    <!-- TOP TOOLBAR & SCOREBOARD -->
+    <!-- TOP TOOLBAR & CONTROLS -->
     <div class="dashboard-strip">
       <div class="brand-section">
         <span class="brand-title">⌨️ HindiTyping</span>
@@ -389,6 +420,13 @@
         </select>
       </div>
 
+      <!-- FONT RESIZE BUTTONS -->
+      <div class="font-size-ctrls">
+        <button type="button" class="btn-font" onclick="adjustFontSize(-0.1)" title="छोटा फॉन्ट (Font Smaller)">A-</button>
+        <span style="font-size:0.7rem; color:var(--muted); font-weight:700;">|</span>
+        <button type="button" class="btn-font" onclick="adjustFontSize(0.1)" title="बड़ा फॉन्ट (Font Bigger)">A+</button>
+      </div>
+
       <div class="stats-row">
         <div class="stat-pill" style="border-color:var(--primary);">
           <span>⏱</span><span class="stat-val" id="valTime" style="color:var(--primary);">05:00</span>
@@ -405,15 +443,15 @@
       </div>
     </div>
 
-    <!-- WORKSPACE AREA: FIXED RIGID LAYOUT -->
+    <!-- WORKSPACE AREA -->
     <div class="workspace-area">
-      <!-- FULL PARAGRAPH TEXT -->
+      <!-- FULL INTACT PARAGRAPH -->
       <div class="passage-card" id="passageDisplay">गद्यांश लोड हो रहा है...</div>
 
       <!-- DIRECT INPUT FIELD -->
       <div class="input-card">
         <input type="text" class="typing-input" id="typingInput"
-               placeholder="यहाँ टाइप करें (पहला अक्षर टाइप करते ही समय चालू होगा)..."
+               placeholder="यहाँ टाइप करें (पहला शब्द लिखकर Space दबाएं)..."
                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                autofocus oninput="handleTyping(event)">
       </div>
@@ -440,7 +478,7 @@
     </div>
   </div>
 
-  <!-- QUICKTOOLS APPS SHORTCUT POPUP -->
+  <!-- QUICKTOOLS APPS MODAL -->
   <div class="modal-overlay" id="appsModal">
     <div class="modal-card">
       <div style="font-size:1.1rem; font-weight:800; color:#fff;">QuickTools Productivity Suite</div>
@@ -497,19 +535,33 @@
       ]
     ];
 
-    let currentPassage = "";
-    let currentIndex = 0;
+    let wordsList = [];
+    let currentWordIndex = 0;
+    let wordStatus = []; // 'correct', 'wrong', null
     let timerRunning = false;
     let timeRemaining = 300;
     let totalTime = 300;
     let timerInterval = null;
     let errorsCount = 0;
-    let totalCharsTyped = 0;
+    let correctWordsCount = 0;
+    let currentFontSize = parseFloat(localStorage.getItem('typingFontSize') || '1.25');
 
     window.addEventListener('DOMContentLoaded', () => {
+      applyFontSize();
       renderKeyboard();
       loadPassage();
     });
+
+    // FONT RESIZING CONTROLS
+    function adjustFontSize(delta) {
+      currentFontSize = Math.min(Math.max(currentFontSize + delta, 0.9), 1.8);
+      localStorage.setItem('typingFontSize', currentFontSize);
+      applyFontSize();
+    }
+
+    function applyFontSize() {
+      document.documentElement.style.setProperty('--typing-font-size', `${currentFontSize}rem`);
+    }
 
     function openAppsModal() { document.getElementById('appsModal').classList.add('active'); }
     function closeAppsModal() { document.getElementById('appsModal').classList.remove('active'); }
@@ -536,47 +588,65 @@
 
     function loadPassage() {
       const pKey = document.getElementById('selPassage').value;
-      currentPassage = passages[pKey] || passages.basic;
+      const rawText = passages[pKey] || passages.basic;
+      wordsList = rawText.trim().split(/\s+/);
+      wordStatus = new Array(wordsList.length).fill(null);
       resetTest();
     }
 
+    // NATURAL INTACT PARAGRAPH RENDERER (NO BROKEN LIGATURES)
     function renderPassage() {
       const display = document.getElementById('passageDisplay');
       let html = '';
-      for (let i = 0; i < currentPassage.length; i++) {
-        let ch = currentPassage[i];
-        if (i === currentIndex) {
-          html += `<span class="char-current" id="activeLetter">${ch === ' ' ? '&nbsp;' : ch}</span>`;
-        } else if (i < currentIndex) {
-          html += `<span class="char-correct">${ch === ' ' ? ' ' : ch}</span>`;
-        } else {
-          html += `<span>${ch === ' ' ? ' ' : ch}</span>`;
+
+      for (let i = 0; i < wordsList.length; i++) {
+        let cls = 'word-token';
+        if (i === currentWordIndex) {
+          cls += ' word-current';
+        } else if (wordStatus[i] === 'correct') {
+          cls += ' word-correct';
+        } else if (wordStatus[i] === 'wrong') {
+          cls += ' word-wrong';
         }
+        html += `<span class="${cls}" id="word_${i}">${wordsList[i]}</span> `;
       }
+
       display.innerHTML = html;
 
-      const activeEl = document.getElementById('activeLetter');
-      if (activeEl) activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      const activeEl = document.getElementById(`word_${currentWordIndex}`);
+      if (activeEl) {
+        activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
     }
 
     function handleTyping(e) {
       if (!timerRunning) startTimer();
       const input = document.getElementById('typingInput');
       const val = input.value;
-      if (!val) return;
 
-      const typedChar = val[val.length - 1];
-      const expectedChar = currentPassage[currentIndex];
-      totalCharsTyped++;
+      // When user presses space or finishes a word
+      if (val.endsWith(' ') || val.endsWith('\n')) {
+        const typedWord = val.trim();
+        const targetWord = wordsList[currentWordIndex];
 
-      if (typedChar === expectedChar) {
-        currentIndex++;
+        if (typedWord === targetWord) {
+          wordStatus[currentWordIndex] = 'correct';
+          correctWordsCount++;
+        } else {
+          wordStatus[currentWordIndex] = 'wrong';
+          errorsCount++;
+        }
+
+        currentWordIndex++;
         input.value = '';
-      } else {
-        errorsCount++;
+
+        updateScores();
+        renderPassage();
+
+        if (currentWordIndex >= wordsList.length) {
+          finishTest();
+        }
       }
-      updateScores();
-      renderPassage();
     }
 
     function startTimer() {
@@ -598,8 +668,10 @@
 
     function updateScores() {
       const timeSpentMin = Math.max((totalTime - timeRemaining) / 60, 0.05);
-      const netWpm = Math.max(0, Math.round(((totalCharsTyped - errorsCount) / 5) / timeSpentMin));
-      const accuracy = totalCharsTyped > 0 ? Math.max(0, Math.round(((totalCharsTyped - errorsCount) / totalCharsTyped) * 100)) : 100;
+      const netWpm = Math.max(0, Math.round(correctWordsCount / timeSpentMin));
+      const totalAttempted = currentWordIndex;
+      const accuracy = totalAttempted > 0 ? Math.max(0, Math.round((correctWordsCount / totalAttempted) * 100)) : 100;
+
       document.getElementById('valWpm').innerText = netWpm;
       document.getElementById('valAcc').innerText = `${accuracy}%`;
       document.getElementById('valErrors').innerText = errorsCount;
@@ -636,9 +708,10 @@
     function resetTest() {
       clearInterval(timerInterval);
       timerRunning = false;
-      currentIndex = 0;
+      currentWordIndex = 0;
       errorsCount = 0;
-      totalCharsTyped = 0;
+      correctWordsCount = 0;
+      wordStatus = new Array(wordsList.length).fill(null);
       totalTime = Number(document.getElementById('selDuration').value);
       timeRemaining = totalTime;
 
