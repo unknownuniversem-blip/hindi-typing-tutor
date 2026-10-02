@@ -324,6 +324,16 @@
       .typing-input { height: 40px !important; }
     }
 
+  
+    /* ULTRA-RELIABLE MOBILE LANDSCAPE RULE */
+    @media (orientation: landscape), (min-aspect-ratio: 4/3) {
+      #quicktools-global-bar { display: none !important; }
+      .keyboard-panel, #keyboardGuide { display: none !important; visibility: hidden !important; height: 0 !important; }
+      .app-screen { height: 100dvh !important; max-height: 100dvh !important; padding: 4px 8px !important; gap: 4px !important; }
+      .passage-container { flex: 1 !important; min-height: 80px !important; }
+      .typing-input { height: 38px !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -657,6 +667,28 @@
     function closeModal() {
       document.getElementById('completionModal').classList.remove('active');
     }
+  
+    // DIRECT HARDWARE ORIENTATION ENFORCER
+    function checkOrientation() {
+      const isLandscape = window.innerWidth > window.innerHeight;
+      const kb = document.getElementById('keyboardGuide');
+      const nav = document.getElementById('quicktools-global-bar');
+      
+      if (kb) {
+        if (isLandscape && window.innerHeight < 600) {
+          kb.style.setProperty('display', 'none', 'important');
+          if (nav) nav.style.setProperty('display', 'none', 'important');
+        } else {
+          kb.style.removeProperty('display');
+          if (nav) nav.style.removeProperty('display');
+        }
+      }
+    }
+
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+    window.addEventListener('DOMContentLoaded', checkOrientation);
+
   </script>
 </body>
 </html>
