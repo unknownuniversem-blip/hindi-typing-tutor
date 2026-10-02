@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
-  <title>Hindi Typing Master & Tutor (Continuous Paragraph Flow)</title>
-  <meta name="description" content="100% Free Hindi Typing Tutor with natural paragraph rendering, font resizer, and zero-scroll landscape mode.">
+  <title>Hindi Typing Master & Tutor (Original Paragraph Mode)</title>
+  <meta name="description" content="100% Free Hindi Typing Tutor with genuine full paragraph view, font resizer, and zero-scroll landscape mode.">
 
   <!-- Privacy Analytics -->
   <script data-goatcounter="https://quicktools.goatcounter.com/count"
@@ -24,6 +24,7 @@
       --danger: #ef4444;
       --text: #f8fafc;
       --muted: #94a3b8;
+      --font-scale: 1.25rem;
     }
 
     * {
@@ -33,7 +34,6 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
     }
 
-    /* STATIC LOCKED VIEWPORT: PREVENTS ALL UNWANTED PAGE SHIFTS */
     html, body {
       width: 100vw;
       height: 100vh;
@@ -63,7 +63,7 @@
       min-height: 0;
     }
 
-    /* HEADER CONTROLS */
+    /* TOP HEADER & CONTROLS */
     .dashboard-strip {
       display: flex;
       align-items: center;
@@ -122,22 +122,22 @@
       height: 26px;
     }
 
-    /* FONT RESIZE BUTTONS */
+    /* FONT RESIZE BUTTONS (A- / A+) */
     .font-size-ctrls {
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       background: var(--bg-surface);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 2px 4px;
+      padding: 2px 6px;
       height: 26px;
     }
     .btn-font {
       background: transparent;
       border: none;
       color: var(--muted);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 800;
       cursor: pointer;
       padding: 0 4px;
@@ -184,39 +184,32 @@
       flex-direction: column;
     }
 
-    /* NATURAL CONTINUOUS PARAGRAPH (FLOWS EXACTLY LIKE BOOK/EXAM TEXT) */
+    /* 100% NATIVE FULL PARAGRAPH */
     .passage-card {
       flex: 1;
-      font-size: var(--typing-font-size, 1.25rem);
-      line-height: 2;
       padding: 16px 20px;
       user-select: none;
-      white-space: normal;
-      word-break: normal;
-      overflow-wrap: break-word;
-      text-align: justify;
     }
     .passage-card::-webkit-scrollbar { width: 5px; }
     .passage-card::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
 
-    /* PURE INLINE TEXT - NO GAPS, CHIPS, OR BROKEN PADDING */
-    .word-token {
-      display: inline;
-      padding: 1px 2px;
+    #passageText {
+      font-size: var(--font-scale);
+      line-height: 2.2;
+      color: #e2e8f0;
+      margin: 0;
+      text-align: justify;
+      letter-spacing: 0.01em;
+      white-space: pre-wrap;
+    }
+
+    .highlight-target {
+      background: rgba(245, 158, 11, 0.25);
+      border-bottom: 2.5px solid var(--primary);
+      color: #fff;
+      font-weight: 700;
+      padding: 0 2px;
       border-radius: 3px;
-    }
-    .word-current {
-      background: var(--primary);
-      color: #0b1120;
-      font-weight: 800;
-      box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
-    }
-    .word-correct {
-      color: var(--accent);
-    }
-    .word-wrong {
-      background: rgba(239, 68, 68, 0.4);
-      color: var(--danger);
     }
 
     .input-card {
@@ -234,7 +227,7 @@
       background: transparent;
       border: none;
       color: #fff;
-      font-size: var(--typing-font-size, 1.2rem);
+      font-size: var(--font-scale);
       padding: 0 14px;
       outline: none;
       user-select: text;
@@ -292,18 +285,18 @@
         gap: 8px !important;
       }
       .passage-card {
-        flex: 1 !important;
+        flex: 1.1 !important;
         height: 100% !important;
-        font-size: var(--typing-font-size, 1.05rem) !important;
-        line-height: 1.65 !important;
-        padding: 8px 12px !important;
+        padding: 10px 14px !important;
+      }
+      #passageText {
+        line-height: 1.7 !important;
       }
       .input-card {
         flex: 1 !important;
         height: 100% !important;
       }
       .typing-input {
-        font-size: var(--typing-font-size, 1.05rem) !important;
         padding: 8px 12px !important;
       }
     }
@@ -420,11 +413,11 @@
         </select>
       </div>
 
-      <!-- FONT RESIZE BUTTONS -->
+      <!-- FONT RESIZE BUTTONS (A- / A+) -->
       <div class="font-size-ctrls">
-        <button type="button" class="btn-font" onclick="adjustFontSize(-0.1)" title="छोटा फॉन्ट (Font Smaller)">A-</button>
+        <button type="button" class="btn-font" onclick="adjustFontSize(-0.1)" title="छोटा फॉन्ट">A-</button>
         <span style="font-size:0.7rem; color:var(--muted); font-weight:700;">|</span>
-        <button type="button" class="btn-font" onclick="adjustFontSize(0.1)" title="बड़ा फॉन्ट (Font Bigger)">A+</button>
+        <button type="button" class="btn-font" onclick="adjustFontSize(0.1)" title="बड़ा फॉन्ट">A+</button>
       </div>
 
       <div class="stats-row">
@@ -445,7 +438,9 @@
 
     <!-- WORKSPACE AREA: NATURAL CONTINUOUS PARAGRAPH -->
     <div class="workspace-area">
-      <div class="passage-card" id="passageDisplay">गद्यांश लोड हो रहा है...</div>
+      <div class="passage-card">
+        <p id="passageText">गद्यांश लोड हो रहा है...</p>
+      </div>
 
       <!-- DIRECT INPUT FIELD -->
       <div class="input-card">
@@ -534,31 +529,31 @@
       ]
     ];
 
-    let wordsList = [];
-    let currentWordIndex = 0;
-    let wordStatus = [];
+    let fullPassageRaw = "";
+    let wordsArray = [];
+    let currentWordIdx = 0;
     let timerRunning = false;
     let timeRemaining = 300;
     let totalTime = 300;
     let timerInterval = null;
     let errorsCount = 0;
-    let correctWordsCount = 0;
-    let currentFontSize = parseFloat(localStorage.getItem('typingFontSize') || '1.25');
+    let correctCount = 0;
+    let fontScale = parseFloat(localStorage.getItem('typingFontScale') || '1.25');
 
     window.addEventListener('DOMContentLoaded', () => {
-      applyFontSize();
+      applyFontScale();
       renderKeyboard();
       loadPassage();
     });
 
     function adjustFontSize(delta) {
-      currentFontSize = Math.min(Math.max(currentFontSize + delta, 0.9), 1.8);
-      localStorage.setItem('typingFontSize', currentFontSize);
-      applyFontSize();
+      fontScale = Math.min(Math.max(fontScale + delta, 0.9), 1.8);
+      localStorage.setItem('typingFontScale', fontScale);
+      applyFontScale();
     }
 
-    function applyFontSize() {
-      document.documentElement.style.setProperty('--typing-font-size', `${currentFontSize}rem`);
+    function applyFontScale() {
+      document.documentElement.style.setProperty('--font-scale', `${fontScale}rem`);
     }
 
     function openAppsModal() { document.getElementById('appsModal').classList.add('active'); }
@@ -586,33 +581,29 @@
 
     function loadPassage() {
       const pKey = document.getElementById('selPassage').value;
-      const rawText = passages[pKey] || passages.basic;
-      wordsList = rawText.trim().split(/\s+/);
-      wordStatus = new Array(wordsList.length).fill(null);
+      fullPassageRaw = (passages[pKey] || passages.basic).trim();
+      wordsArray = fullPassageRaw.split(/\s+/);
       resetTest();
     }
 
-    /* CONTINUOUS NATIVE PARAGRAPH RENDERER */
-    function renderPassage() {
-      const display = document.getElementById('passageDisplay');
-      let html = '';
-
-      for (let i = 0; i < wordsList.length; i++) {
-        let cls = 'word-token';
-        if (i === currentWordIndex) {
-          cls += ' word-current';
-        } else if (wordStatus[i] === 'correct') {
-          cls += ' word-correct';
-        } else if (wordStatus[i] === 'wrong') {
-          cls += ' word-wrong';
+    /* TRUE NATIVE PARAGRAPH RENDERER */
+    function renderParagraph() {
+      const targetP = document.getElementById('passageText');
+      
+      let html = "";
+      for (let i = 0; i < wordsArray.length; i++) {
+        if (i === currentWordIdx) {
+          html += `<span class="highlight-target" id="activeWord">${wordsArray[i]}</span> `;
+        } else if (i < currentWordIdx) {
+          html += `<span style="color:var(--accent);">${wordsArray[i]}</span> `;
+        } else {
+          html += `${wordsArray[i]} `;
         }
-        // Native space separator keeps text flowing as a continuous paragraph
-        html += `<span class="${cls}" id="word_${i}">${wordsList[i]}</span> `;
       }
+      
+      targetP.innerHTML = html;
 
-      display.innerHTML = html;
-
-      const activeEl = document.getElementById(`word_${currentWordIndex}`);
+      const activeEl = document.getElementById('activeWord');
       if (activeEl) {
         activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       }
@@ -625,23 +616,21 @@
 
       if (val.endsWith(' ') || val.endsWith('\n')) {
         const typedWord = val.trim();
-        const targetWord = wordsList[currentWordIndex];
+        const targetWord = wordsArray[currentWordIdx];
 
         if (typedWord === targetWord) {
-          wordStatus[currentWordIndex] = 'correct';
-          correctWordsCount++;
+          correctCount++;
         } else {
-          wordStatus[currentWordIndex] = 'wrong';
           errorsCount++;
         }
 
-        currentWordIndex++;
+        currentWordIdx++;
         input.value = '';
 
         updateScores();
-        renderPassage();
+        renderParagraph();
 
-        if (currentWordIndex >= wordsList.length) {
+        if (currentWordIdx >= wordsArray.length) {
           finishTest();
         }
       }
@@ -666,9 +655,9 @@
 
     function updateScores() {
       const timeSpentMin = Math.max((totalTime - timeRemaining) / 60, 0.05);
-      const netWpm = Math.max(0, Math.round(correctWordsCount / timeSpentMin));
-      const totalAttempted = currentWordIndex;
-      const accuracy = totalAttempted > 0 ? Math.max(0, Math.round((correctWordsCount / totalAttempted) * 100)) : 100;
+      const netWpm = Math.max(0, Math.round(correctCount / timeSpentMin));
+      const totalAttempted = currentWordIdx;
+      const accuracy = totalAttempted > 0 ? Math.max(0, Math.round((correctCount / totalAttempted) * 100)) : 100;
 
       document.getElementById('valWpm').innerText = netWpm;
       document.getElementById('valAcc').innerText = `${accuracy}%`;
@@ -706,10 +695,9 @@
     function resetTest() {
       clearInterval(timerInterval);
       timerRunning = false;
-      currentWordIndex = 0;
+      currentWordIdx = 0;
       errorsCount = 0;
-      correctWordsCount = 0;
-      wordStatus = new Array(wordsList.length).fill(null);
+      correctCount = 0;
       totalTime = Number(document.getElementById('selDuration').value);
       timeRemaining = totalTime;
 
@@ -724,7 +712,7 @@
       input.value = '';
       input.disabled = false;
       input.focus();
-      renderPassage();
+      renderParagraph();
       document.getElementById('completionModal').classList.remove('active');
     }
   </script>
