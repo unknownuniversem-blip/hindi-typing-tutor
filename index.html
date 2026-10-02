@@ -2,9 +2,9 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Hindi Typing Master & Tutor (Zero Scroll Exam Console)</title>
-  <meta name="description" content="100% Free Hindi Typing Tutor with side-by-side landscape mode, live WPM speed test, and Kruti Dev/Mangal support.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
+  <title>Hindi Typing Master & Tutor</title>
+  <meta name="description" content="100% Free Single-Screen Hindi Typing Tutor with side-by-side landscape mode.">
 
   <!-- Privacy Analytics -->
   <script data-goatcounter="https://quicktools.goatcounter.com/count"
@@ -12,436 +12,6 @@
           async src="//gc.zgo.at/count.js"></script>
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f172a' stroke='%23f59e0b' stroke-width='1.5'/%3E%3Ctext x='7' y='22' font-family='sans-serif' font-size='16' font-weight='bold' fill='%23f59e0b'%3Eक%3C/text%3E%3Crect x='19' y='14' width='7' height='2' fill='%2338bdf8'/%3E%3C/svg%3E">
-
-  <style>
-    :root {
-      --bg-primary: #0a1120;
-      --bg-card: #131d31;
-      --bg-surface: #0f172a;
-      --border: #223249;
-      --primary: #f59e0b;
-      --accent: #10b981;
-      --danger: #ef4444;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
-    }
-
-    html, body {
-      width: 100vw;
-      height: 100dvh;
-      overflow: hidden !important;
-      background-color: var(--bg-primary);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* GLOBAL NAV BAR */
-    #quicktools-global-bar {
-      background: #060911;
-      border-bottom: 1px solid var(--border);
-      padding: 4px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11px;
-      height: 32px;
-      flex-shrink: 0;
-    }
-    #quicktools-global-bar a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    #quicktools-global-bar a:hover { color: #fff; }
-
-    /* MAIN APP SHELL */
-    .app-shell {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 8px 12px;
-      gap: 8px;
-      max-width: 1120px;
-      width: 100%;
-      margin: 0 auto;
-      overflow: hidden;
-    }
-
-    /* HEADER CONTROLS STRIP */
-    .header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 6px 12px;
-      flex-shrink: 0;
-    }
-
-    .brand-title {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .toolbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    select {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      color: #fff;
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 4px 8px;
-      border-radius: 6px;
-      outline: none;
-      height: 28px;
-    }
-
-    /* STATS BADGES */
-    .stat-badge {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 800;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* TYPING WORKSPACE */
-    .workspace-grid {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-      min-height: 0;
-    }
-
-    /* PASSAGE WINDOW */
-    .passage-card {
-      background: #ffffff;
-      color: #0f172a;
-      border-radius: 8px;
-      padding: 14px;
-      font-size: 1.15rem;
-      line-height: 1.8;
-      overflow-y: auto;
-      user-select: none;
-      border: 2px solid #cbd5e1;
-      position: relative;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-    .passage-card::-webkit-scrollbar { width: 5px; }
-    .passage-card::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
-
-    .char-current {
-      background: #0284c7;
-      color: #ffffff;
-      border-radius: 3px;
-      padding: 0 4px;
-      font-weight: 800;
-    }
-    .char-correct { color: #15803d; font-weight: 700; }
-    .char-wrong { background: #fee2e2; color: #dc2626; border-radius: 2px; }
-
-    /* INPUT BOX */
-    .input-card {
-      background: #ffffff;
-      border-radius: 8px;
-      border: 2px solid #cbd5e1;
-      padding: 10px 12px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-    .input-card:focus-within { border-color: var(--primary); }
-
-    .typing-field {
-      width: 100%;
-      height: 100%;
-      min-height: 48px;
-      background: transparent;
-      border: none;
-      color: #0f172a;
-      font-size: 1.25rem;
-      outline: none;
-      resize: none;
-      line-height: 1.6;
-    }
-
-    /* VIRTUAL KEYBOARD PANEL */
-    .keyboard-panel {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      flex-shrink: 0;
-      user-select: none;
-    }
-    .kb-row {
-      display: flex;
-      gap: 4px;
-      justify-content: center;
-    }
-    .kb-key {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      padding: 4px 2px;
-      flex: 1;
-      max-width: 58px;
-      height: 38px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .key-eng { font-size: 0.6rem; color: var(--text-muted); font-weight: 700; }
-    .key-hin { font-size: 0.95rem; color: #fff; font-weight: 800; line-height: 1; }
-
-    /* LANDSCAPE MODE: TWO-BOX SIDE-BY-SIDE CONSOLE */
-    @media (orientation: landscape) {
-      #quicktools-global-bar { display: none !important; }
-      .app-shell { padding: 4px 8px; gap: 4px; }
-      .header-bar { padding: 4px 8px; }
-      .brand-title { font-size: 0.82rem; }
-      select, .stat-badge { height: 24px; font-size: 0.72rem; }
-
-      .workspace-grid {
-        grid-template-columns: 1.1fr 1fr !important;
-        gap: 8px !important;
-      }
-      .passage-card {
-        font-size: 1.05rem;
-        line-height: 1.6;
-        padding: 10px 12px;
-      }
-      .input-card { padding: 10px 12px; }
-      .typing-field { font-size: 1.1rem; }
-      .keyboard-panel { display: none !important; }
-    }
-
-    /* MODAL: ON-SCREEN KEYBOARD UNAVAILABLE IN LANDSCAPE */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(3, 7, 18, 0.75);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 100000;
-      padding: 1rem;
-    }
-    .modal-overlay.active { display: flex; }
-    .info-modal-card {
-      background: #ffffff;
-      color: #0f172a;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 360px;
-      padding: 1.5rem;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes popIn {
-      from { transform: scale(0.92); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-    .info-modal-text {
-      font-size: 0.92rem;
-      color: #475569;
-      line-height: 1.5;
-      margin-bottom: 1.25rem;
-    }
-    .btn-understand {
-      width: 100%;
-      background: #0284c7;
-      color: #ffffff;
-      border: none;
-      padding: 11px;
-      border-radius: 9999px;
-      font-weight: 800;
-      font-size: 0.95rem;
-      cursor: pointer;
-    }
-
-    /* RESULT MODAL */
-    .result-modal-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      color: #fff;
-      width: 100%;
-      max-width: 420px;
-      padding: 1.4rem;
-      text-align: center;
-    }
-    .meta-box {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 0.85rem;
-      margin: 12px 0;
-      text-align: left;
-    }
-    .meta-box div { display: flex; justify-content: space-between; margin-bottom: 4px; }
-  </style>
-</head>
-<body>
-
-  <!-- GLOBAL NETWORK HEADER -->
-  <div id="quicktools-global-bar">
-    <div style="display:flex; align-items:center; gap:6px;">
-      <a href="https://unknownuniversem-blip.github.io/" style="color:#f8fafc; font-weight:800;">
-        <span style="background:#38bdf8; color:#0b1120; font-size:9px; padding:1px 4px; border-radius:3px;">HUB</span> QuickTools
-      </a>
-    </div>
-    <div style="display:flex; align-items:center; gap:10px; overflow-x:auto;">
-      <a href="https://unknownuniversem-blip.github.io/hindi-typing-tutor/" style="color:#f59e0b;">⌨️ हिंदी टाइपिंग</a>
-      <span>|</span>
-      <a href="https://unknownuniversem-blip.github.io/signature-maker-studio/">✍️ Signature Studio</a>
-      <span>|</span>
-      <a href="https://unknownuniversem-blip.github.io/krutidev-unicode-converter/">🔤 फॉन्ट कनवर्टर</a>
-      <span>|</span>
-      <a href="https://unknownuniversem-blip.github.io/exam-resizer/">📷 Photo Resizer</a>
-    </div>
-  </div>
-
-  <div class="app-shell">
-    <!-- TOP TOOLBAR -->
-    <div class="header-bar">
-      <div class="brand-title">
-        <span>⌨️ HindiTyping</span>
-      </div>
-
-      <div class="toolbar-actions">
-        <select id="selLayout" onchange="changeLayout()">
-          <option value="mangal" selected>मंगल (Mangal)</option>
-          <option value="kruti">कृतिदेव (Kruti)</option>
-        </select>
-
-        <select id="selDuration" onchange="resetTest()">
-          <option value="60">1 Min</option>
-          <option value="180">3 Min</option>
-          <option value="300" selected>05:00</option>
-          <option value="600">10 Min</option>
-        </select>
-
-        <select id="selPassage" onchange="loadPassage()">
-          <option value="basic" selected>सरल (Basic)</option>
-          <option value="court">कोर्ट वाद (Legal)</option>
-          <option value="editorial">संपादकीय (Hard)</option>
-        </select>
-
-        <div class="stat-badge" style="border-color:var(--primary); color:var(--primary);">
-          <span>⏱</span><span id="valTime">05:00</span>
-        </div>
-        <div class="stat-badge" style="border-color:var(--accent); color:var(--accent);">
-          <span id="valWpm">0</span><span>WPM</span>
-        </div>
-        <div class="stat-badge" style="border-color:#38bdf8; color:#38bdf8;">
-          <span id="valAcc">100%</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- WORKSPACE: PASSAGE & TYPING INPUT (SIDE-BY-SIDE IN LANDSCAPE) -->
-    <div class="workspace-grid">
-      <div class="passage-card" id="passageDisplay">गद्यांश लोड हो रहा है...</div>
-
-      <div class="input-card">
-        <textarea class="typing-field" id="typingInput"
-                  placeholder="कृपया यहां लिखें (पहला अक्षर टाइप करते ही समय चालू होगा)..."
-                  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                  autofocus oninput="handleTyping(event)"></textarea>
-      </div>
-    </div>
-
-    <!-- VIRTUAL KEYBOARD PANEL (PORTRAIT ONLY) -->
-    <div class="keyboard-panel" id="keyboardGuide"></div>
-  </div>
-
-  <!-- NOTICE MODAL: KEYBOARD UNAVAILABLE IN LANDSCAPE -->
-  <div class="modal-overlay" id="landscapeNoticeModal">
-    <div class="info-modal-card">
-      <div class="info-modal-text">
-        On-screen keyboard is unavailable in landscape mode. Rotate to portrait or use a physical keyboard.
-      </div>
-      <button type="button" class="btn-understand" onclick="dismissLandscapeNotice()">I understand</button>
-    </div>
-  </div>
-
-  <!-- RESULT MODAL -->
-  <div class="modal-overlay" id="completionModal">
-    <div class="result-modal-card">
-      <div style="font-size:2rem; margin-bottom:4px;">🏆</div>
-      <div style="font-size:1.15rem; font-weight:800;" id="modalTitle">टाइपिंग टेस्ट पूर्ण!</div>
-
-      <div class="meta-box">
-        <div><span>शुद्ध स्पीड (Net WPM):</span> <strong id="modalNetWpm" style="color:var(--accent);">0 WPM</strong></div>
-        <div><span>सटीकता (Accuracy):</span> <strong id="modalAccuracy" style="color:#38bdf8;">100%</strong></div>
-        <div><span>कुल गलतियां (Errors):</span> <strong id="modalErrors" style="color:var(--danger);">0</strong></div>
-        <div><span>परीक्षा अर्हता:</span> <strong id="modalQualify" style="color:var(--primary);">जांच जारी...</strong></div>
-      </div>
-
-      <button type="button" class="btn-understand" onclick="resetTest()">🔄 पुनः टेस्ट दें (Restart)</button>
-    </div>
-  </div>
-
-  <script>
-    const passages = {
-      basic: "भारत में बहुत से खेल खेले जाते हैं। लेकिन क्रिकेट मेरा पसंदीदा खेल है। क्रिकेट इंग्लैंड का राष्ट्रीय खेल था। अब यह पाकिस्तान काThe script threw an `unterminated triple-quoted string literal` because the terminal paste was truncated midway.
-
-Writing the clean file directly via `cat << 'EOF' > index.html` avoids Python string-escaping issues completely.
-
-Run this block directly in your terminal:
-
-```bash
-cd ~/hindi-typing-tutor
-
-cat << 'EOF' > index.html
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Hindi Typing Master & Tutor (Zero Scroll Exam Console)</title>
-  <meta name="description" content="100% Free Hindi Typing Tutor with side-by-side landscape mode, live WPM speed test, and Kruti Dev/Mangal support.">
-
-  <!-- Privacy Analytics -->
-  <script data-goatcounter="[https://quicktools.goatcounter.com/count](https://quicktools.goatcounter.com/count)"
-          data-goatcounter-settings='{"allow_local": true}'
-          async src="//gc.zgo.at/count.js"></script>
-
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f172a' stroke='%23f59e0b' stroke-width='1.5'/%3E%3Ctext x='7' y='22' font-family='sans-serif' font-size='16' font-weight='bold' fill='%23f59e0b'%3Eक%3C/text%3E%3Crect x='19' y='14' width='7' height='2' fill='%2338bdf8'/%3E%3C/svg%3E">
 
   <style>
     :root {
@@ -498,15 +68,15 @@ cat << 'EOF' > index.html
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 8px 12px;
-      gap: 8px;
-      max-width: 1120px;
+      padding: 6px 10px;
+      gap: 6px;
+      max-width: 1100px;
       width: 100%;
       margin: 0 auto;
       overflow: hidden;
     }
 
-    /* HEADER CONTROLS STRIP */
+    /* HEADER CONTROLS */
     .header-bar {
       display: flex;
       align-items: center;
@@ -515,7 +85,7 @@ cat << 'EOF' > index.html
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 6px 10px;
+      padding: 5px 10px;
       flex-shrink: 0;
     }
 
@@ -543,7 +113,6 @@ cat << 'EOF' > index.html
       height: 26px;
     }
 
-    /* KEYBOARD TOGGLE SWITCH */
     .toggle-wrapper {
       display: flex;
       align-items: center;
@@ -594,12 +163,12 @@ cat << 'EOF' > index.html
       gap: 3px;
     }
 
-    /* WORKSPACE: STACKED IN PORTRAIT, SIDE-BY-SIDE IN LANDSCAPE */
+    /* WORKSPACE */
     .workspace-area {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       overflow: hidden;
       min-height: 0;
     }
@@ -608,7 +177,6 @@ cat << 'EOF' > index.html
       background: var(--bg-surface);
       border: 1.5px solid var(--border);
       border-radius: 8px;
-      padding: 10px 12px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -618,13 +186,14 @@ cat << 'EOF' > index.html
       flex: 1;
       font-size: 1.15rem;
       line-height: 1.8;
+      padding: 10px 12px;
       user-select: none;
       letter-spacing: 0.02em;
     }
 
     .input-card {
       flex-shrink: 0;
-      height: 60px;
+      height: 56px;
       padding: 0;
       border-color: rgba(245, 158, 11, 0.4);
     }
@@ -656,7 +225,7 @@ cat << 'EOF' > index.html
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 6px;
+      padding: 5px;
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -680,63 +249,19 @@ cat << 'EOF' > index.html
     .key-eng { font-size: 0.6rem; color: var(--text-muted); font-weight: 700; line-height: 1; }
     .key-hin { font-size: 0.95rem; color: #fff; font-weight: 800; line-height: 1.1; margin-top: 1px; }
 
-    /* LANDSCAPE NOTICE POPUP (MATCHING SCREENSHOT 90124) */
-    .landscape-toast {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(19, 28, 46, 0.96);
-      border: 1.5px solid var(--border);
-      backdrop-filter: blur(8px);
-      border-radius: 14px;
-      padding: 18px 24px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-      z-index: 99999;
-      max-width: 380px;
-      width: 90%;
-    }
-    .landscape-toast h4 {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 6px;
-    }
-    .landscape-toast p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-      margin-bottom: 14px;
-    }
-    .btn-toast {
-      background: var(--primary);
-      color: #0b1120;
-      border: none;
-      padding: 8px 22px;
-      border-radius: 8px;
-      font-weight: 800;
-      font-size: 0.85rem;
-      cursor: pointer;
-    }
-
-    /* ========================================================
-       LANDSCAPE MODE RULES: SIDE-BY-SIDE + NO KEYBOARD
-       ======================================================== */
+    /* LANDSCAPE MODE: SIDE-BY-SIDE EQUAL COLUMNS */
     @media screen and (orientation: landscape) {
       #quicktools-global-bar { display: none !important; }
       .keyboard-panel, #keyboardGuide { display: none !important; }
       
       .app-shell {
         padding: 4px 8px !important;
-        gap: 6px !important;
+        gap: 4px !important;
       }
       .header-bar {
         padding: 3px 8px !important;
       }
       
-      /* SIDE-BY-SIDE DUAL COLUMNS (MATCHING SCREENSHOTS 90120 & 90119) */
       .workspace-area {
         flex-direction: row !important;
         flex: 1 !important;
@@ -744,14 +269,14 @@ cat << 'EOF' > index.html
       }
       .passage-card {
         flex: 1 !important;
-        height: auto !important;
+        height: 100% !important;
         font-size: 1.05rem !important;
         line-height: 1.6 !important;
         padding: 8px 12px !important;
       }
       .input-card {
         flex: 1 !important;
-        height: auto !important;
+        height: 100% !important;
         padding: 0 !important;
       }
       .typing-input {
@@ -764,29 +289,29 @@ cat << 'EOF' > index.html
 </head>
 <body>
 
-  <!-- GLOBAL NETWORK HEADER -->
+  <!-- GLOBAL NAV BAR -->
   <div id="quicktools-global-bar">
     <div style="display:flex; align-items:center; gap:6px;">
-      <a href="[https://unknownuniversem-blip.github.io/](https://unknownuniversem-blip.github.io/)" style="color:#f8fafc; font-weight:800;">
+      <a href="https://unknownuniversem-blip.github.io/" style="color:#f8fafc; font-weight:800;">
         <span style="background:#38bdf8; color:#0b1120; font-size:9px; padding:1px 4px; border-radius:3px;">HUB</span> QuickTools
       </a>
     </div>
     <div style="display:flex; align-items:center; gap:10px; overflow-x:auto;">
-      <a href="[https://unknownuniversem-blip.github.io/hindi-typing-tutor/](https://unknownuniversem-blip.github.io/hindi-typing-tutor/)" style="color:#f59e0b;">⌨️ हिंदी टाइपिंग</a>
+      <a href="https://unknownuniversem-blip.github.io/hindi-typing-tutor/" style="color:#f59e0b;">⌨️ हिंदी टाइपिंग</a>
       <span>|</span>
-      <a href="[https://unknownuniversem-blip.github.io/signature-maker-studio/](https://unknownuniversem-blip.github.io/signature-maker-studio/)">✍️ Signature Studio</a>
+      <a href="https://unknownuniversem-blip.github.io/signature-maker-studio/">✍️️ Signature Studio</a>
       <span>|</span>
-      <a href="[https://unknownuniversem-blip.github.io/krutidev-unicode-converter/](https://unknownuniversem-blip.github.io/krutidev-unicode-converter/)">🔤 फॉन्ट कनवर्टर</a>
+      <a href="https://unknownuniversem-blip.github.io/krutidev-unicode-converter/">🔤 फॉन्ट कनवर्टर</a>
       <span>|</span>
-      <a href="[https://unknownuniversem-blip.github.io/exam-resizer/](https://unknownuniversem-blip.github.io/exam-resizer/)">📷 Photo Resizer</a>
+      <a href="https://unknownuniversem-blip.github.io/exam-resizer/">📷 Photo Resizer</a>
     </div>
   </div>
 
   <div class="app-shell">
     <!-- TOP STATUS STRIP -->
     <div class="header-bar">
-      <div class="brand-title">
-        <span>⌨️ HindiTyping</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span class="brand-title">HindiTyping<span style="color:var(--primary);">Master</span></span>
       </div>
 
       <div class="toolbar-actions">
@@ -800,7 +325,6 @@ cat << 'EOF' > index.html
           <option value="300" selected>05:00</option>
         </select>
 
-        <!-- ON-SCREEN KEYBOARD TOGGLE -->
         <div class="toggle-wrapper active" id="kbToggleBtn" onclick="toggleKeyboardPreference()">
           <span>⌨</span>
           <div class="toggle-switch"></div>
@@ -821,9 +345,7 @@ cat << 'EOF' > index.html
     <!-- WORKSPACE AREA: AUTO SIDE-BY-SIDE ON LANDSCAPE -->
     <div class="workspace-area">
       <!-- LEFT BOX: PASSAGE -->
-      <div class="passage-card" id="passageDisplay">
-        लोड हो रहा है...
-      </div>
+      <div class="passage-card" id="passageDisplay">लोड हो रहा है...</div>
 
       <!-- RIGHT BOX: INPUT BOX -->
       <div class="input-card">
@@ -836,13 +358,6 @@ cat << 'EOF' > index.html
 
     <!-- ON-SCREEN KEYBOARD (PORTRAIT ONLY) -->
     <div class="keyboard-panel" id="keyboardGuide"></div>
-  </div>
-
-  <!-- LANDSCAPE ALERT (MATCHING SCREENSHOT 90124) -->
-  <div class="landscape-toast" id="landscapeToast">
-    <h4>On-Screen Keyboard Hidden</h4>
-    <p>On-screen keyboard is unavailable in landscape mode. Rotate to portrait or use a physical keyboard.</p>
-    <button class="btn-toast" onclick="dismissLandscapeToast()">I Understand</button>
   </div>
 
   <script>
@@ -878,31 +393,12 @@ cat << 'EOF' > index.html
     let timerInterval = null;
     let errorsCount = 0;
     let totalCharsTyped = 0;
-    let toastShown = false;
     let showKeyboardPref = true;
 
     window.addEventListener('DOMContentLoaded', () => {
       renderKeyboard();
       loadPassage();
-      checkOrientationToast();
     });
-
-    window.addEventListener('resize', checkOrientationToast);
-    window.addEventListener('orientationchange', checkOrientationToast);
-
-    function checkOrientationToast() {
-      const isLandscape = window.innerWidth > window.innerHeight;
-      const toast = document.getElementById('landscapeToast');
-      if (isLandscape && !toastShown && window.innerHeight < 600) {
-        toast.style.display = 'block';
-        toastShown = true;
-      }
-    }
-
-    function dismissLandscapeToast() {
-      document.getElementById('landscapeToast').style.display = 'none';
-      document.getElementById('typingInput').focus();
-    }
 
     function toggleKeyboardPreference() {
       showKeyboardPref = !showKeyboardPref;
