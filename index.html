@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
-  <title>Hindi Typing Master & Tutor (Zero Scroll Console)</title>
-  <meta name="description" content="100% Free Hindi Typing Tutor with intact Hindi ligatures, font resizer, and side-by-side landscape mode.">
+  <title>Hindi Typing Master & Tutor (Continuous Paragraph Flow)</title>
+  <meta name="description" content="100% Free Hindi Typing Tutor with natural paragraph rendering, font resizer, and zero-scroll landscape mode.">
 
   <!-- Privacy Analytics -->
   <script data-goatcounter="https://quicktools.goatcounter.com/count"
@@ -33,6 +33,7 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
     }
 
+    /* STATIC LOCKED VIEWPORT: PREVENTS ALL UNWANTED PAGE SHIFTS */
     html, body {
       width: 100vw;
       height: 100vh;
@@ -62,7 +63,7 @@
       min-height: 0;
     }
 
-    /* TOP HEADER & CONTROLS */
+    /* HEADER CONTROLS */
     .dashboard-strip {
       display: flex;
       align-items: center;
@@ -121,7 +122,7 @@
       height: 26px;
     }
 
-    /* FONT RESIZE BUTTONS (A- / A+) */
+    /* FONT RESIZE BUTTONS */
     .font-size-ctrls {
       display: flex;
       align-items: center;
@@ -183,39 +184,38 @@
       flex-direction: column;
     }
 
-    /* FULL INTACT PARAGRAPH WITH PROPER DEVANAGARI LIGATURES */
+    /* NATURAL CONTINUOUS PARAGRAPH (FLOWS EXACTLY LIKE BOOK/EXAM TEXT) */
     .passage-card {
       flex: 1;
       font-size: var(--typing-font-size, 1.25rem);
-      line-height: 2.1;
-      padding: 14px 18px;
+      line-height: 2;
+      padding: 16px 20px;
       user-select: none;
-      letter-spacing: 0.01em;
       white-space: normal;
       word-break: normal;
       overflow-wrap: break-word;
+      text-align: justify;
     }
     .passage-card::-webkit-scrollbar { width: 5px; }
     .passage-card::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
 
-    /* WORD HIGHLIGHTING (NATURAL PARAGRAPH FLOW) */
+    /* PURE INLINE TEXT - NO GAPS, CHIPS, OR BROKEN PADDING */
     .word-token {
-      display: inline-block;
-      margin: 0 3px;
-      padding: 1px 4px;
-      border-radius: 4px;
+      display: inline;
+      padding: 1px 2px;
+      border-radius: 3px;
     }
     .word-current {
       background: var(--primary);
       color: #0b1120;
       font-weight: 800;
-      box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
     }
     .word-correct {
       color: var(--accent);
     }
     .word-wrong {
-      background: rgba(239, 68, 68, 0.35);
+      background: rgba(239, 68, 68, 0.4);
       color: var(--danger);
     }
 
@@ -274,7 +274,7 @@
     .key-eng { font-size: 0.6rem; color: var(--muted); font-weight: 700; line-height: 1; }
     .key-hin { font-size: 0.95rem; color: #fff; font-weight: 800; line-height: 1.1; margin-top: 1px; }
 
-    /* LANDSCAPE ZERO-SCROLL MODE (NO KEYBOARD) */
+    /* LANDSCAPE: STATIC SIDE-BY-SIDE + NO KEYBOARD */
     @media screen and (orientation: landscape) and (max-height: 560px) {
       .keyboard-panel, #keyboardGuide { display: none !important; }
 
@@ -295,7 +295,7 @@
         flex: 1 !important;
         height: 100% !important;
         font-size: var(--typing-font-size, 1.05rem) !important;
-        line-height: 1.7 !important;
+        line-height: 1.65 !important;
         padding: 8px 12px !important;
       }
       .input-card {
@@ -443,9 +443,8 @@
       </div>
     </div>
 
-    <!-- WORKSPACE AREA -->
+    <!-- WORKSPACE AREA: NATURAL CONTINUOUS PARAGRAPH -->
     <div class="workspace-area">
-      <!-- FULL INTACT PARAGRAPH -->
       <div class="passage-card" id="passageDisplay">गद्यांश लोड हो रहा है...</div>
 
       <!-- DIRECT INPUT FIELD -->
@@ -537,7 +536,7 @@
 
     let wordsList = [];
     let currentWordIndex = 0;
-    let wordStatus = []; // 'correct', 'wrong', null
+    let wordStatus = [];
     let timerRunning = false;
     let timeRemaining = 300;
     let totalTime = 300;
@@ -552,7 +551,6 @@
       loadPassage();
     });
 
-    // FONT RESIZING CONTROLS
     function adjustFontSize(delta) {
       currentFontSize = Math.min(Math.max(currentFontSize + delta, 0.9), 1.8);
       localStorage.setItem('typingFontSize', currentFontSize);
@@ -594,7 +592,7 @@
       resetTest();
     }
 
-    // NATURAL INTACT PARAGRAPH RENDERER (NO BROKEN LIGATURES)
+    /* CONTINUOUS NATIVE PARAGRAPH RENDERER */
     function renderPassage() {
       const display = document.getElementById('passageDisplay');
       let html = '';
@@ -608,6 +606,7 @@
         } else if (wordStatus[i] === 'wrong') {
           cls += ' word-wrong';
         }
+        // Native space separator keeps text flowing as a continuous paragraph
         html += `<span class="${cls}" id="word_${i}">${wordsList[i]}</span> `;
       }
 
@@ -624,7 +623,6 @@
       const input = document.getElementById('typingInput');
       const val = input.value;
 
-      // When user presses space or finishes a word
       if (val.endsWith(' ') || val.endsWith('\n')) {
         const typedWord = val.trim();
         const targetWord = wordsList[currentWordIndex];
